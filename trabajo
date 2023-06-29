@@ -1,0 +1,110 @@
+import random
+
+def grabar_reserva(reservas, reserva_id):
+    print("----- Grabar Reserva -----")
+    fecha = input("Fecha del paseo (dd/mm/aaaa): ")
+    hora = input("Hora del paseo (hh:mm): ")
+    lugar_inicio = input("Lugar de inicio: ")
+    lugar_fin = input("Lugar de fin: ")
+    cantidad_mascotas = int(input("Cantidad de mascotas a pasear: "))
+
+    # Validar la cantidad de mascotas permitidas por paseo
+    if cantidad_mascotas < 1 or cantidad_mascotas > 5:
+        print("Error: La cantidad de mascotas debe ser entre 1 y 5.")
+        return
+
+    nombre_reserva = input("Nombre de la persona que reserva: ")
+    precio = generar_precio_aleatorio()
+
+    reserva = {
+        "ID": reserva_id,
+        "Fecha": fecha,
+        "Hora": hora,
+        "Inicio": lugar_inicio,
+        "Fin": lugar_fin,
+        "Mascotas": cantidad_mascotas,
+        "Nombre": nombre_reserva,
+        "Precio": precio
+    }
+
+    reservas.append(reserva)
+    reserva_id += 1
+
+    print("Reserva grabada exitosamente. Número de reserva:", reserva["ID"])
+    print()
+
+def buscar_reserva(reservas):
+    print("----- Buscar Reserva -----")
+    id_buscar = int(input("Ingrese el número de reserva a buscar: "))
+
+    encontrado = False
+    for reserva in reservas:
+        if reserva["ID"] == id_buscar:
+            print("Reserva encontrada:")
+            print("Fecha:", reserva["Fecha"])
+            print("Hora:", reserva["Hora"])
+            print("Inicio:", reserva["Inicio"])
+            print("Fin:", reserva["Fin"])
+            print("Mascotas:", reserva["Mascotas"])
+            print("Nombre:", reserva["Nombre"])
+            print("Precio:", reserva["Precio"])
+            encontrado = True
+            break
+
+    if not encontrado:
+        print("No se encontró ninguna reserva con el número especificado.")
+    
+    print()
+
+def imprimir_boleta(reservas):
+    print("----- Imprimir Boleta -----")
+    id_buscar = int(input("Ingrese el número de reserva para imprimir la boleta: "))
+
+    encontrado = False
+    for reserva in reservas:
+        if reserva["ID"] == id_buscar:
+            print("Fecha del paseo:", reserva["Fecha"])
+            print("Cantidad de mascotas paseadas:", reserva["Mascotas"])
+            print("Precio del paseo:", reserva["Precio"])
+            encontrado = True
+            break
+
+    if not encontrado:
+        print("No se encontró ninguna reserva con el número especificado.")
+    
+    print()
+
+def generar_precio_aleatorio():
+    precio_minimo = 3500
+    precio_maximo = 12900
+    precio = random.randint(precio_minimo, precio_maximo)
+    return precio
+
+def main():
+    reservas = []
+    reserva_id = 1000
+
+    while True:
+        print("----- Te Paseo - Sistema de Reservas -----")
+        print("1. Grabar reserva")
+        print("2. Buscar reserva")
+        print("3. Imprimir boleta")
+        print("4. Salir")
+        opcion = int(input("Seleccione una opción: "))
+
+        if opcion == 1:
+            grabar_reserva(reservas, reserva_id)
+            reserva_id += 1
+
+        elif opcion == 2:
+            buscar_reserva(reservas)
+
+        elif opcion == 3:
+            imprimir_boleta(reservas)
+
+        elif opcion == 4:
+            print("Gracias por utilizar el sistema de reservas Te Paseo.")
+            break
+
+if __name__ == "__main__":
+    main()
